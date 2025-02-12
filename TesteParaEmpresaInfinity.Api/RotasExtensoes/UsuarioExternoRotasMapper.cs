@@ -29,7 +29,7 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })
-                .Produces(200)
+                .Produces(200, typeof(UsuarioPlaceHolderDto))
                 .Produces(404)
                 .Produces(500, typeof(ErroDto))
                 .WithMetadata(new SwaggerOperationAttribute("Buscar um usuário externo", "Busca um usuário da api do placeHolder"))
