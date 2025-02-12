@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using TesteParaEmpresaInfinity.Api.Extensao;
 using TesteParaEmpresaInfinity.Aplicacao.Dtos;
 using TesteParaEmpresaInfinity.Aplicacao.Interfaces;
 
@@ -24,7 +25,7 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                     {
                         HttpStatusCode.OK => Results.Ok(response.Resposta),
                         HttpStatusCode.NotFound => Results.NotFound(),
-                        HttpStatusCode.InternalServerError => Results.Problem(),
+                        HttpStatusCode.InternalServerError => response.Erros.First().ParaErrorDoTipoExcecao(),
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })

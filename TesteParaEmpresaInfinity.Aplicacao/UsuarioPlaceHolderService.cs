@@ -8,7 +8,7 @@ using TesteParaEmpresaInfinity.Infra.RepositorioApi;
 
 namespace TesteParaEmpresaInfinity.Aplicacao
 {
-    public class UsuarioPlaceHolderService : IUsuarioPlaceHolderService
+    public sealed class UsuarioPlaceHolderService : IUsuarioPlaceHolderService
     {
         private readonly IPlaceHolderApi _placeHolderApi;
 

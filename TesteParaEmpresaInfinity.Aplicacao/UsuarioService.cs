@@ -2,6 +2,7 @@
 using TesteParaEmpresaInfinity.Aplicacao.Dtos;
 using TesteParaEmpresaInfinity.Aplicacao.Interfaces;
 using TesteParaEmpresaInfinity.Aplicacao.Mappers;
+using TesteParaEmpresaInfinity.Aplicacao.MensagensErros;
 using TesteParaEmpresaInfinity.Aplicacao.Results;
 using TesteParaEmpresaInfinity.Infra;
 
@@ -40,7 +41,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
             catch (Exception ex)
             {
-                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto(CodigoErro.ErroSistemico, ex.Message));
             }
         }
 
@@ -62,7 +63,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
             catch (Exception ex)
             {
-                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto(CodigoErro.ErroSistemico, ex.Message));
             }
         }
 
@@ -77,7 +78,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
             catch (Exception ex)
             {
-                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado(HttpStatusCode.InternalServerError, new ErroDto(CodigoErro.ErroSistemico, ex.Message));
             }
         }
 
@@ -96,7 +97,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             catch (Exception ex)
             {
 
-                return new Resultado<List<UsuarioSaidaDto>>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado<List<UsuarioSaidaDto>>(HttpStatusCode.InternalServerError, new ErroDto(CodigoErro.ErroSistemico, ex.Message));
             }
         }
 
@@ -116,7 +117,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
             catch (Exception ex)
             {
-                return new Resultado<UsuarioSaidaDto>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado<UsuarioSaidaDto>(HttpStatusCode.InternalServerError, new ErroDto(CodigoErro.ErroSistemico, ex.Message));
             }
         }
     }

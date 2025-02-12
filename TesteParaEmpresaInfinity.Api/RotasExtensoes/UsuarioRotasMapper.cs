@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using TesteParaEmpresaInfinity.Api.Extensao;
 using TesteParaEmpresaInfinity.Aplicacao.Dtos;
 using TesteParaEmpresaInfinity.Aplicacao.Interfaces;
+using TesteParaEmpresaInfinity.Aplicacao.Validacoes;
 
 namespace TesteParaEmpresaInfinity.Api.RotasExtensions
 {
@@ -18,21 +20,27 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
         private static WebApplication MapCriarUsuario(this WebApplication app)
         {
             app.MapPost(_rotaRaizUsuario,
-                async ([FromServices] IUsuarioService usarioService, UsuarioDto usuarioDto, CancellationToken cancellationToken) =>
+                async ([FromServices] IUsuarioService usuarioService, UsuarioDto usuarioDto, CancellationToken cancellationToken) =>
                 {
+                    var validacao = usuarioDto.Validacao();
 
-                    var response = await usarioService.InserirUsuario(usuarioDto, cancellationToken);
+                    if (validacao.Count > 0)
+                    {
+                        return Results.BadRequest(validacao);
+                    }
+
+                    var response = await usuarioService.InserirUsuario(usuarioDto, cancellationToken);
 
 
                     return response.StatusCode switch
                     {
                         HttpStatusCode.Created => Results.Created("", ""),
-                        HttpStatusCode.InternalServerError => Results.Problem(),
+                        HttpStatusCode.InternalServerError => response.Erros.First().ParaErrorDoTipoExcecao(),
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })
                 .Produces(201)
-                .Produces(400, typeof(ErroDto))
+                .Produces(400, typeof(List<ErroDto>))
                 .Produces(500, typeof(ErroDto))
                 .WithMetadata(new SwaggerOperationAttribute("Criar Usuário", "Cria um usuário"))
                 .WithTags("Usuário");
@@ -46,6 +54,13 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                 async ([FromServices] IUsuarioService usarioService,Guid id ,UsuarioDto usuarioDto, CancellationToken cancellationToken) =>
                 {
 
+                    var validacao = usuarioDto.Validacao();
+
+                    if (validacao.Count > 0)
+                    {
+                        return Results.BadRequest(validacao);
+                    }
+
                     var response = await usarioService.AtualizarUsuario(id, usuarioDto, cancellationToken);
 
 
@@ -53,11 +68,12 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                     {
                         HttpStatusCode.OK => Results.Ok(),
                         HttpStatusCode.NotFound => Results.NotFound(),
-                        HttpStatusCode.InternalServerError => Results.Problem(),
+                        HttpStatusCode.InternalServerError => response.Erros.First().ParaErrorDoTipoExcecao(),
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })
                 .Produces(200)
+                .Produces(400,typeof(List<ErroDto>))
                 .Produces(404)
                 .Produces(500, typeof(ErroDto))
                 .WithMetadata(new SwaggerOperationAttribute("Atualizar Usuário", "Atualiza um usuário"))
@@ -78,7 +94,7 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                     return response.StatusCode switch
                     {
                         HttpStatusCode.OK => Results.Ok(response.Resposta),
-                        HttpStatusCode.InternalServerError => Results.Problem(),
+                        HttpStatusCode.InternalServerError => response.Erros.First().ParaErrorDoTipoExcecao(),
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })
@@ -104,7 +120,7 @@ namespace TesteParaEmpresaInfinity.Api.RotasExtensions
                     {
                         HttpStatusCode.NoContent => Results.NoContent(),
                         HttpStatusCode.NotFound => Results.NotFound(),
-                        HttpStatusCode.InternalServerError => Results.Problem(),
+                        HttpStatusCode.InternalServerError => response.Erros.First().ParaErrorDoTipoExcecao(),
                         _ => throw new ArgumentOutOfRangeException(nameof(response))
                     };
                 })

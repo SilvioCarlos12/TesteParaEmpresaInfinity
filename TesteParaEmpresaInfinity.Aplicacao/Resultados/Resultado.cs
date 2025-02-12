@@ -3,7 +3,7 @@ using TesteParaEmpresaInfinity.Aplicacao.Dtos;
 
 namespace TesteParaEmpresaInfinity.Aplicacao.Results
 {
-    public class Resultado<T>
+    public sealed class Resultado<T>
     {
         public T? Resposta { get; private set; }
         public List<ErroDto> Erros { get; private set; } = new List<ErroDto>();
@@ -30,7 +30,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao.Results
         }
     }
 
-    public class Resultado
+    public sealed class Resultado
     {
         public List<ErroDto> Erros { get; private set; } = new List<ErroDto>();
 
