@@ -16,10 +16,11 @@ namespace TesteParaEmpresaInfinity.Aplicacao.Mappers
             };
         }
 
-        public static UsuarioDto ToDto(this Usuario usuario)
+        public static UsuarioSaidaDto ToDto(this Usuario usuario)
         {
-            return new UsuarioDto(usuario.Nome, usuario.Telefone, usuario.Email);
+            return new UsuarioSaidaDto(usuario.Id, usuario.Nome, usuario.Telefone, usuario.Email);
         }
+
 
         public static UsuarioPlaceHolderDto ToUsuarioPlaceHolderDto(this DadosUsuariosPlaceHolderDto usuarioPlaceHolder)
         {

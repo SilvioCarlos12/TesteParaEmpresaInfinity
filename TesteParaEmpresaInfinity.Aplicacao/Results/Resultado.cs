@@ -12,9 +12,10 @@ namespace TesteParaEmpresaInfinity.Aplicacao.Results
 
         public HttpStatusCode StatusCode { get; private set; }
 
-        public Resultado(T resposta, HttpStatusCode StatusCode)
+        public Resultado(T resposta, HttpStatusCode statusCode)
         {
             Resposta = resposta;
+            StatusCode = statusCode;
         }
 
         public Resultado(HttpStatusCode statusCode, params ErroDto[] erro)

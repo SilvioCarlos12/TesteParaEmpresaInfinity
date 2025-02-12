@@ -7,8 +7,8 @@ namespace TesteParaEmpresaInfinity.Aplicacao.Interfaces
     {
         Task<Resultado> InserirUsuario(UsuarioDto usuario, CancellationToken cancellationToken);
         Task<Resultado> DeleteUsuario(Guid id, CancellationToken cancellationToken);
-        Task<Resultado<UsuarioDto>> ObterUsuarioPorId(Guid id, CancellationToken cancellationToken);
-        Task<Resultado<List<UsuarioDto>>> ObterUsuarioPorFiltro(string nome, string email, string telefone, CancellationToken cancellationToken);
+        Task<Resultado<UsuarioSaidaDto>> ObterUsuarioPorId(Guid id, CancellationToken cancellationToken);
+        Task<Resultado<List<UsuarioSaidaDto>>> ObterUsuarioPorFiltro(UsuarioDto usuarioDto, CancellationToken cancellationToken);
         Task<Resultado> AtualizarUsuario(Guid id, UsuarioDto usuarioDto, CancellationToken cancellationToken);
     }
 }

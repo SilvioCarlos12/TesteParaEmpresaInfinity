@@ -46,5 +46,6 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<UsuarioContext>();
     context.Database.Migrate();
 }
-app.MapUsuario();
+app.MapUsuario()
+   .MapUsuarioExterno();
 app.Run();

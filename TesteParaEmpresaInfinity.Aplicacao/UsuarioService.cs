@@ -28,15 +28,15 @@ namespace TesteParaEmpresaInfinity.Aplicacao
                     return new Resultado(HttpStatusCode.NotFound);
                 }
 
-                usuario.Telefone = usuarioDto.Telefone;
+                usuario.Telefone = usuarioDto.Telefone!;
 
-                usuario.Nome = usuarioDto.Nome;
+                usuario.Nome = usuarioDto.Nome!;
 
-                usuario.Email = usuarioDto.Email;
+                usuario.Email = usuarioDto.Email!;
 
                 await _usuarioRepositorio.Atualizar(usuario, cancellationToken);
 
-                return new Resultado(HttpStatusCode.NoContent);
+                return new Resultado(HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
@@ -81,26 +81,26 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
         }
 
-        public async Task<Resultado<List<UsuarioDto>>> ObterUsuarioPorFiltro(string nome, string email, string telefone, CancellationToken cancellationToken)
+        public async Task<Resultado<List<UsuarioSaidaDto>>> ObterUsuarioPorFiltro(UsuarioDto usuarioDto, CancellationToken cancellationToken)
         {
             try
             {
                 var usuarios = await _usuarioRepositorio.ObterUsuarioPorFiltro(x => 
-                (string.IsNullOrEmpty(telefone)|| x.Telefone == telefone) &&
-                (string.IsNullOrEmpty(email) || x.Email == email) &&
-                (string.IsNullOrEmpty(nome) || x.Nome == nome)
+                (string.IsNullOrEmpty(usuarioDto.Telefone) || x.Telefone == usuarioDto.Telefone) &&
+                (string.IsNullOrEmpty(usuarioDto.Email) || x.Email == usuarioDto.Email) &&
+                (string.IsNullOrEmpty(usuarioDto.Nome) || x.Nome == usuarioDto.Nome)
                 , cancellationToken);
 
-                return new Resultado<List<UsuarioDto>>(usuarios.Select(x => x.ToDto()).ToList(),HttpStatusCode.OK);
+                return new Resultado<List<UsuarioSaidaDto>>(usuarios.ConvertAll(x=> x.ToDto()),HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
 
-                return new Resultado<List<UsuarioDto>>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado<List<UsuarioSaidaDto>>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
             }
         }
 
-        public async Task<Resultado<UsuarioDto>> ObterUsuarioPorId(Guid id, CancellationToken cancellationToken)
+        public async Task<Resultado<UsuarioSaidaDto>> ObterUsuarioPorId(Guid id, CancellationToken cancellationToken)
         {
             try
             {
@@ -109,14 +109,14 @@ namespace TesteParaEmpresaInfinity.Aplicacao
                 if (usuario == null)
                 {
 
-                    return new Resultado<UsuarioDto>(HttpStatusCode.NotFound);
+                    return new Resultado<UsuarioSaidaDto>(HttpStatusCode.NotFound);
                 }
 
-                return new Resultado<UsuarioDto>(usuario.ToDto(), HttpStatusCode.OK);
+                return new Resultado<UsuarioSaidaDto>(usuario.ToDto(), HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
-                return new Resultado<UsuarioDto>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
+                return new Resultado<UsuarioSaidaDto>(HttpStatusCode.InternalServerError, new ErroDto("001", ex.Message));
             }
         }
     }

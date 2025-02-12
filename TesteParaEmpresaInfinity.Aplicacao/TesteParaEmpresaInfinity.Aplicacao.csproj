@@ -11,4 +11,8 @@
     <ProjectReference Include="..\TesteParaEmpresaInfinity.Repositorio\TesteParaEmpresaInfinity.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validacoes\" />
+  </ItemGroup>
+
 </Project>
