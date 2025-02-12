@@ -87,9 +87,9 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             try
             {
                 var usuarios = await _usuarioRepositorio.ObterUsuarioPorFiltro(x => 
-                (string.IsNullOrEmpty(usuarioDto.Telefone) || x.Telefone == usuarioDto.Telefone) &&
-                (string.IsNullOrEmpty(usuarioDto.Email) || x.Email == usuarioDto.Email) &&
-                (string.IsNullOrEmpty(usuarioDto.Nome) || x.Nome == usuarioDto.Nome)
+                (string.IsNullOrEmpty(usuarioDto.Telefone) || x.Telefone.Contains(usuarioDto.Telefone)) &&
+                (string.IsNullOrEmpty(usuarioDto.Email) || x.Email.Contains(usuarioDto.Email)) &&
+                (string.IsNullOrEmpty(usuarioDto.Nome) || x.Nome.Contains(usuarioDto.Nome))
                 , cancellationToken);
 
                 return new Resultado<List<UsuarioSaidaDto>>(usuarios.ConvertAll(x=> x.ToDto()),HttpStatusCode.OK);
