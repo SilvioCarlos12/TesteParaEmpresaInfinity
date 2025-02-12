@@ -61,7 +61,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao.MensagensErros {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a O email esta em formato inválido..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O email esta no formato inválido..
         /// </summary>
         public static string EmailInvalido {
             get {
