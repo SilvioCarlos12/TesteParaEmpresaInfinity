@@ -66,7 +66,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao
             }
         }
 
-        public async Task<Resultado> InserirUsuaro(UsuarioDto usuario, CancellationToken cancellationToken)
+        public async Task<Resultado> InserirUsuario(UsuarioDto usuario, CancellationToken cancellationToken)
         {
             try
             {

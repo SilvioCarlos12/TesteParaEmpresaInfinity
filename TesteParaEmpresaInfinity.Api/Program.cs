@@ -4,6 +4,7 @@ using TesteParaEmpresaInfinity.Aplicacao;
 using TesteParaEmpresaInfinity.Infra;
 using Refit;
 using TesteParaEmpresaInfinity.Infra.RepositorioApi;
+using TesteParaEmpresaInfinity.Api.RotasExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,5 +46,5 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<UsuarioContext>();
     context.Database.Migrate();
 }
-
+app.MapUsuario();
 app.Run();
