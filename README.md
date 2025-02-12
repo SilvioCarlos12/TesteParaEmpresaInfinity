@@ -22,12 +22,14 @@ Usando como base Entidade Usuario, os campos Nome,
 Telefone e Email são obrigatório.
 
 Campo Telefone existe validação que checkagem se ele é segue
-o padrão de 11 digitos e se são numericos, se não for apresentará
+o padrão de 12 digitos e se são numericos, se não for apresentará
 um erro => O telefone está no formato inválido.
+Formato => 999999999999
 
 Campo Email existe validação que checkagem se ele é segue padrão de
 email tradicional se não for apresentará
 um erro => O email esta no formato inválido.
+Formato => email@email.com
 
 ## Escolhas Técnicas
  

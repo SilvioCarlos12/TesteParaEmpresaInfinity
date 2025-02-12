@@ -59,7 +59,7 @@ namespace TesteParaEmpresaInfinity.Aplicacao.Validacoes
         }
         private static bool TelefoneEstarInvalido(string telefone)
         {
-            var telefoneValido = int.TryParse(telefone, out var resultado) && telefone.Length == 11;
+            var telefoneValido = long.TryParse(telefone, out var resultado) && telefone.Length == 12;
 
             if (telefoneValido)
             {
