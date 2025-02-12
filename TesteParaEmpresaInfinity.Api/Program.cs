@@ -1,3 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using TesteParaEmpresaInfinity.Aplicacao.Interfaces;
+using TesteParaEmpresaInfinity.Aplicacao;
+using TesteParaEmpresaInfinity.Infra;
+using Refit;
+using TesteParaEmpresaInfinity.Infra.RepositorioApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +12,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddDbContext<UsuarioContext>(options => options.UseNpgsql("name=ConnectionStrings:BancoDeDados",
+                                                                 b => b.MigrationsAssembly("TesteParaEmpresaInfinity.Infra")));
+
+builder.Services.AddRefitClient<IPlaceHolderApi>().ConfigureHttpClient(c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["PlaceHolderConfiguracao:UrlBase"]);
+
+});
+
+builder.Services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IUsuarioPlaceHolderService, UsuarioPlaceHolderService>();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -16,29 +39,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+using (var scope = app.Services.CreateScope())
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<UsuarioContext>();
+    context.Database.Migrate();
+}
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
